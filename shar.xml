@@ -18,6 +18,7 @@
             <item>end</item>
             <item>fallthrough</item>
             <item>for</item>
+            <item>gParse</item>
             <item>if</item>
             <item>next</item>
             <item>parse</item>
