@@ -4,7 +4,7 @@
     name=        "Shar"
     section=     "Sources"
     extensions=  "*.shar"
-    version=     "0.1"
+    version=     "0.3"
     kateversion= "5.0">
 
     <highlighting>
