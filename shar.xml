@@ -77,6 +77,7 @@
                 <RegExpr String="\b(const|enum)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
+                <HlCHex attribute="Hex"/>
                 <Int attribute="Int"/>
                 <RegExpr String="\b(false|true)\b" attribute="Bool"/>
                 <WordDetect String="nothing" attribute="Nothing"/>
@@ -96,6 +97,7 @@
                 <RegExpr String="\b(const|enum)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
+                <HlCHex attribute="Hex"/>
                 <Int attribute="Int"/>
                 <RegExpr String="\b(false|true)\b" attribute="Bool"/>
                 <WordDetect String="nothing" attribute="Nothing"/>
@@ -225,6 +227,7 @@
                 <RegExpr String="\b(const|enum)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
+                <HlCHex attribute="Hex"/>
                 <Int attribute="Int"/>
                 <RegExpr String="^ {4,}inthrow\b" attribute="ControlFlow"/>
                 <RegExpr String="^ {4,}nothrow\b" attribute="ControlFlow"/>
@@ -248,6 +251,7 @@
                 <RegExpr String="\b(const|enum)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
+                <HlCHex attribute="Hex"/>
                 <Int attribute="Int"/>
                 <RegExpr String="^ {4,}inthrow\b" attribute="ControlFlow"/>
                 <RegExpr String="^ {4,}nothrow\b" attribute="ControlFlow"/>
@@ -330,6 +334,7 @@
                 <RegExpr String="\b(const|enum)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
+                <HlCHex attribute="Hex"/>
                 <Int attribute="Int"/>
                 <RegExpr String="^ {4,}inthrow\b" attribute="ControlFlow"/>
                 <RegExpr String="^ {4,}nothrow\b" attribute="ControlFlow"/>
@@ -360,16 +365,17 @@
             <itemData name="Bool"                    defStyleNum="dsBaseN"       spellChecking="false"/>
             <itemData name="Char"                    defStyleNum="dsChar"        spellChecking="false"/>
             <itemData name="Comment"                 defStyleNum="dsComment"     spellChecking="true" />
+            <itemData name="ControlFlow"             defStyleNum="dsControlFlow" spellChecking="false"/>
             <itemData name="FieldFunction"           defStyleNum="dsVariable"    spellChecking="false"/>
             <itemData name="Float"                   defStyleNum="dsFloat"       spellChecking="false"/>
             <itemData name="FunctionAttribute"       defStyleNum="dsAttribute"   spellChecking="false"/>
+            <itemData name="Hex"                     defStyleNum="dsBaseN"       spellChecking="false"/>
             <itemData name="Int"                     defStyleNum="dsDecVal"      spellChecking="false"/>
             <itemData name="MainID"                  defStyleNum="dsKeyword"     spellChecking="false"/>
             <itemData name="Modifiers"               defStyleNum="dsAnnotation"  spellChecking="false"/>
             <itemData name="ModuleName"              defStyleNum="dsImport"      spellChecking="false"/>
             <itemData name="Normal"                  defStyleNum="dsNormal"      spellChecking="false"/>
             <itemData name="Nothing"                 defStyleNum="dsBuiltIn"     spellChecking="false"/>
-            <itemData name="ControlFlow"             defStyleNum="dsControlFlow" spellChecking="false"/>
             <itemData name="Own"                     defStyleNum="dsImport"      spellChecking="false"/>
             <itemData name="String Char"             defStyleNum="dsSpecialChar" spellChecking="false"/>
             <itemData name="String"                  defStyleNum="dsString"      spellChecking="false"/>
