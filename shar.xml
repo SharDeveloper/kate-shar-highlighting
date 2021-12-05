@@ -107,12 +107,12 @@
 
             <context name="String" attribute="String" lineEndContext="#pop">
                 <DetectChar char="&quot;" attribute="String" context="#pop"/>
-                <RegExpr String="\\(n|t|q|a|\\|[0-9a-fA-F]{4})" attribute="String Char"/>
+                <RegExpr String="\\(n|t|q|p|a|\\|[0-9a-fA-F]{4})" attribute="String Char"/>
             </context>
 
             <context name="Char" attribute="Char" lineEndContext="#pop">
                 <DetectChar char="'" attribute="Char" context="#pop"/>
-                <RegExpr String="\\(n|t|q|a|\\|[0-9a-fA-F]{4})" attribute="String Char"/>
+                <RegExpr String="\\(n|t|q|p|a|\\|[0-9a-fA-F]{4})" attribute="String Char"/>
             </context>
 
             <context name="Type" attribute="Normal" lineEndContext="#pop">
