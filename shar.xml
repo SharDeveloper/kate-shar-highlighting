@@ -209,7 +209,7 @@
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="^ {0,3}[^ ]" context="#pop#pop" lookAhead="true"/>
-                <RegExpr String="^ {4}llvm\b" context="LLVMID" lookAhead="true"/>
+                <RegExpr String="^ {4}llvm$" context="LLVMID" lookAhead="true"/>
                 <RegExpr String="^ {4}\S" context="Code" lookAhead="true"/>
             </context>
 
@@ -316,7 +316,7 @@
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="^ {0,7}[^ ]" context="#pop#pop" lookAhead="true"/>
-                <RegExpr String="^ {8}llvm\b" context="LLVMIDInAttach" lookAhead="true"/>
+                <RegExpr String="^ {8}llvm$" context="LLVMIDInAttach" lookAhead="true"/>
                 <RegExpr String="^ {8}\S" context="CodeInAttach" lookAhead="true"/>
             </context>
 
