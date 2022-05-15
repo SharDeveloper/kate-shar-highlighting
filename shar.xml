@@ -4,7 +4,7 @@
     name=        "Shar"
     section=     "Sources"
     extensions=  "*.shar"
-    version=     "0.3"
+    version=     "0.5"
     kateversion= "5.0">
 
     <highlighting>
@@ -55,26 +55,17 @@
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="ModuleName"/>
-                <RegExpr String="\{$" context="MLModule"/>
             </context>
 
-            <context name="MLModule" attribute="Normal">
-                <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
-                <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="ModuleName"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
-            </context>
-
-            <context name="Constant" attribute="Normal" lineEndContext="#pop">
+            <context name="Constant" attribute="Normal" lineEndContext="IRID_OR_Code">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <DetectChar char="&quot;" attribute="String" context="String"/>
                 <DetectChar char="'" attribute="Char" context="Char"/>
-                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
+                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="Field"/>
                 <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\?|\!)?" attribute="Normal"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <RegExpr String="\b(const|enum)?::" attribute="Own"/>
+                <RegExpr String="\b(const)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
                 <HlCHex attribute="Hex"/>
@@ -82,56 +73,36 @@
                 <RegExpr String="\b(false|true)\b" attribute="Bool"/>
                 <WordDetect String="nothing" attribute="Nothing"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\{$" context="MLConstant"/>
-            </context>
-
-            <context name="MLConstant" attribute="Normal">
-                <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
-                <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
-                <DetectChar char="&quot;" attribute="String" context="String"/>
-                <DetectChar char="'" attribute="Char" context="Char"/>
-                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\?|\!)?" attribute="Normal"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <RegExpr String="\b(const|enum)?::" attribute="Own"/>
-                <Detect2Chars char=":" char1=":" attribute="Own"/>
-                <Float attribute="Float"/>
-                <HlCHex attribute="Hex"/>
-                <Int attribute="Int"/>
-                <RegExpr String="\b(false|true)\b" attribute="Bool"/>
-                <WordDetect String="nothing" attribute="Nothing"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
             </context>
 
             <context name="String" attribute="String" lineEndContext="#pop">
                 <DetectChar char="&quot;" attribute="String" context="#pop"/>
-                <RegExpr String="\\(n|t|q|p|a|\\|[0-9a-fA-F]{4})" attribute="String Char"/>
+                <RegExpr String="\\(n|t|q|p|a|\\|[0-9a-fA-F]{6})" attribute="String Char"/>
             </context>
 
             <context name="Char" attribute="Char" lineEndContext="#pop">
                 <DetectChar char="'" attribute="Char" context="#pop"/>
-                <RegExpr String="\\(n|t|q|p|a|\\|[0-9a-fA-F]{4})" attribute="String Char"/>
+                <RegExpr String="\\(n|t|q|p|a|\\|[0-9a-fA-F]{6})" attribute="String Char"/>
             </context>
 
-            <context name="Type" attribute="Normal" lineEndContext="#pop">
+            <context name="Type" attribute="Normal" lineEndContext="Fields">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\{$" context="MLType"/>
             </context>
 
-            <context name="MLType" attribute="Normal">
+            <context name="Fields" attribute="Normal">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
+                <RegExpr String="^ {0,3}[^ ]" context="#pop#pop" lookAhead="true"/>
+                <RegExpr String="^ {4}hide\b" attribute="MainID"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
             </context>
 
             <context name="Enum" attribute="Normal" lineEndContext="EnumItems">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
+                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
             </context>
 
             <context name="EnumItems" attribute="Normal">
@@ -146,16 +117,6 @@
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\{$" context="MLGroup"/>
-            </context>
-
-            <context name="MLGroup" attribute="Normal">
-                <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
-                <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <Detect2Chars char=":" char1=":" attribute="Own"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
             </context>
 
             <context name="GroupFunctions" attribute="Normal">
@@ -163,53 +124,26 @@
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="^ {0,3}[^ ]" context="#pop#pop" lookAhead="true"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\{$" context="MLGroupFunctions"/>
             </context>
 
-            <context name="MLGroupFunctions" attribute="Normal">
+            <context name="Function" attribute="Normal" lineEndContext="IRID_OR_Code">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <Detect2Chars char=":" char1=":" attribute="Own"/>
-                <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
-            </context>
-
-            <context name="Function" attribute="Normal" lineEndContext="llvmID_OR_Code">
-                <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
-                <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
                 <WordDetect String="def" attribute="MainID"/>
                 <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
-                <RegExpr String="\{$" context="MLFunction"/>
             </context>
 
-            <context name="MLFunction" attribute="Normal">
-                <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
-                <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <Detect2Chars char=":" char1=":" attribute="Own"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <WordDetect String="def" attribute="MainID"/>
-                <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
-            </context>
-
-            <context name="llvmID_OR_Code" attribute="Normal">
+            <context name="IRID_OR_Code" attribute="Normal">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="^ {0,3}[^ ]" context="#pop#pop" lookAhead="true"/>
-                <RegExpr String="^ {4}llvm$" context="LLVMID" lookAhead="true"/>
+                <RegExpr String="^ {4}IR\b *(?=\/\/.*)?$" context="IRID" lookAhead="true"/>
                 <RegExpr String="^ {4}\S" context="Code" lookAhead="true"/>
             </context>
 
@@ -220,55 +154,28 @@
                 <RegExpr String="^ {4,}(const|var) " attribute="MainID"/>
                 <DetectChar char="&quot;" attribute="String" context="String"/>
                 <DetectChar char="'" attribute="Char" context="Char"/>
-                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
+                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="Field"/>
                 <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\?|\!)?" attribute="Normal"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <RegExpr String="\b(const|enum)?::" attribute="Own"/>
+                <RegExpr String="\b(const)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
                 <HlCHex attribute="Hex"/>
                 <Int attribute="Int"/>
-                <RegExpr String="^ {4,}inthrow\b" attribute="ControlFlow"/>
-                <RegExpr String="^ {4,}nothrow\b" attribute="ControlFlow"/>
+                <RegExpr String="^ {4,}inthrow\b *(?=\/\/.*)?$" attribute="ControlFlow"/>
+                <RegExpr String="^ {4,}nothrow\b *(?=\/\/.*)?$" attribute="ControlFlow"/>
                 <keyword String="Operators" attribute="ControlFlow"/>
                 <RegExpr String="\b(false|true)\b" attribute="Bool"/>
                 <WordDetect String="nothing" attribute="Nothing"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
-                <RegExpr String="\{$" context="MLCode"/>
             </context>
 
-            <context name="MLCode" attribute="Normal">
-                <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
-                <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
-                <DetectChar char="&quot;" attribute="String" context="String"/>
-                <DetectChar char="'" attribute="Char" context="Char"/>
-                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\?|\!)?" attribute="Normal"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <RegExpr String="\b(const|enum)?::" attribute="Own"/>
-                <Detect2Chars char=":" char1=":" attribute="Own"/>
-                <Float attribute="Float"/>
-                <HlCHex attribute="Hex"/>
-                <Int attribute="Int"/>
-                <RegExpr String="^ {4,}inthrow\b" attribute="ControlFlow"/>
-                <RegExpr String="^ {4,}nothrow\b" attribute="ControlFlow"/>
-                <keyword String="Operators" attribute="ControlFlow"/>
-                <RegExpr String="\b(false|true)\b" attribute="Bool"/>
-                <WordDetect String="nothing" attribute="Nothing"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
-            </context>
-
-            <context name="LLVMID" attribute="MainID" lineEndContext="LLVMCode">
+            <context name="IRID" attribute="MainID" lineEndContext="IRCode">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
             </context>
 
-            <context name="LLVMCode" attribute="Normal">
+            <context name="IRCode" attribute="Normal">
                 <RegExpr String="^ {0,7}[^ ]" context="#pop#pop#pop#pop" lookAhead="true"/>
                 <IncludeRules context="llvm##LLVM"/>
             </context>
@@ -280,17 +187,6 @@
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\{$" context="MLAttach"/>
-            </context>
-
-            <context name="MLAttach" attribute="Normal">
-                <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
-                <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
-                <WordDetect String=" to " attribute="MainID"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <Detect2Chars char=":" char1=":" attribute="Own"/>
-                <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="^[ \t]*\}$" context="#pop"/>
             </context>
 
             <context name="AttachFunctions" attribute="Normal">
@@ -301,22 +197,20 @@
                 <RegExpr String="^ {4}def\b" context="FunctionInAttach" attribute="MainID"/>
             </context>
 
-            <context name="FunctionInAttach" attribute="Normal" lineEndContext="llvmID_OR_Code_InAttach">
+            <context name="FunctionInAttach" attribute="Normal" lineEndContext="IRID_OR_Code_InAttach">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
                 <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
-                <RegExpr String="\{$" context="MLFunctionInAttach"/>
             </context>
 
-            <context name="llvmID_OR_Code_InAttach" attribute="Normal">
+            <context name="IRID_OR_Code_InAttach" attribute="Normal">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
                 <RegExpr String="^ {0,7}[^ ]" context="#pop#pop" lookAhead="true"/>
-                <RegExpr String="^ {8}llvm$" context="LLVMIDInAttach" lookAhead="true"/>
+                <RegExpr String="^ {8}IR\b *(?=\/\/.*)?$" context="IRIDInAttach" lookAhead="true"/>
                 <RegExpr String="^ {8}\S" context="CodeInAttach" lookAhead="true"/>
             </context>
 
@@ -327,31 +221,28 @@
                 <RegExpr String="^ {8,}(const|var) " attribute="MainID"/>
                 <DetectChar char="&quot;" attribute="String" context="String"/>
                 <DetectChar char="'" attribute="Char" context="Char"/>
-                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
+                <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="Field"/>
                 <RegExpr String="(?&lt;=\.)[a-z][a-zA-Z0-9_]*(\?|\!)?" attribute="Normal"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*(?=::)" attribute="ModuleName"/>
-                <RegExpr String="[a-z][a-zA-Z0-9_]*(\~|\`)" attribute="FieldFunction"/>
-                <RegExpr String="\b(const|enum)?::" attribute="Own"/>
+                <RegExpr String="\b(const)?::" attribute="Own"/>
                 <Detect2Chars char=":" char1=":" attribute="Own"/>
                 <Float attribute="Float"/>
                 <HlCHex attribute="Hex"/>
                 <Int attribute="Int"/>
-                <RegExpr String="^ {4,}inthrow\b" attribute="ControlFlow"/>
-                <RegExpr String="^ {4,}nothrow\b" attribute="ControlFlow"/>
+                <RegExpr String="^ {4,}inthrow\b *(?=\/\/.*)?$" attribute="ControlFlow"/>
+                <RegExpr String="^ {4,}nothrow\b *(?=\/\/.*)?$" attribute="ControlFlow"/>
                 <keyword String="Operators" attribute="ControlFlow"/>
                 <RegExpr String="\b(false|true)\b" attribute="Bool"/>
                 <WordDetect String="nothing" attribute="Nothing"/>
                 <RegExpr String="\b[A-Z][a-zA-Z0-9_]*" attribute="TypeName"/>
-                <RegExpr String="\b(write|noread)\b" attribute="Modifiers"/>
-                <RegExpr String="\{$" context="MLCode"/>
             </context>
 
-            <context name="LLVMIDInAttach" attribute="MainID" lineEndContext="LLVMCodeInAttach">
+            <context name="IRIDInAttach" attribute="MainID" lineEndContext="IRCodeInAttach">
                 <Detect2Chars char="/" char1="/" attribute="Comment" context="EndLineComment"/>
                 <Detect2Chars char="/" char1="*" attribute="Comment" context="InlineComment" beginRegion="Comment"/>
             </context>
 
-            <context name="LLVMCodeInAttach" attribute="Normal">
+            <context name="IRCodeInAttach" attribute="Normal">
                 <RegExpr String="^ {0,11}[^ ]" context="#pop#pop#pop#pop" lookAhead="true"/>
                 <IncludeRules context="llvm##LLVM"/>
             </context>
@@ -366,7 +257,7 @@
             <itemData name="Char"                    defStyleNum="dsChar"        spellChecking="false"/>
             <itemData name="Comment"                 defStyleNum="dsComment"     spellChecking="true" />
             <itemData name="ControlFlow"             defStyleNum="dsControlFlow" spellChecking="false"/>
-            <itemData name="FieldFunction"           defStyleNum="dsVariable"    spellChecking="false"/>
+            <itemData name="Field"                   defStyleNum="dsVariable"    spellChecking="false"/>
             <itemData name="Float"                   defStyleNum="dsFloat"       spellChecking="false"/>
             <itemData name="FunctionAttribute"       defStyleNum="dsAttribute"   spellChecking="false"/>
             <itemData name="Hex"                     defStyleNum="dsBaseN"       spellChecking="false"/>
